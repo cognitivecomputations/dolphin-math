@@ -6,6 +6,8 @@ This project, generates synthetic math problems covering various arithmetic and 
 
 The output is designed for training language models to perform multi-step mathematical reasoning.
 
+It works for both SFT and RL.  You should generate separate datasets for SFT and RL.  SFT teaches it the syntax, RL teaches it to git gud at it.
+
 ## Features
 
 Generates problems and detailed steps for the following types:
