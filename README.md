@@ -1,4 +1,4 @@
-# Ultra Math Dataset Generator
+# Dolphin Math Dataset Generator
 
 ## Purpose
 
