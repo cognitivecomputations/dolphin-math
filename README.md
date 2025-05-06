@@ -1,4 +1,5 @@
 # Dolphin Math Data Generator
+<img width="410" alt="image" src="https://github.com/user-attachments/assets/f8a5d3d2-7820-4f7c-a5d3-fbac667e7084" />
 
 ## Purpose
 
