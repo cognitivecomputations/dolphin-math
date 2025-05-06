@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This project generates synthetic math problems covering various arithmetic and algebra topics. Crucially, it also generates detailed, step-by-step solutions intended to mimic the process a human would follow when solving the problem manually (like a "visible scratchpad").
+This project, generates synthetic math problems covering various arithmetic and algebra topics. Crucially, it also generates detailed, step-by-step solutions intended to mimic the process a human would follow when solving the problem manually (like a "visible scratchpad").
 
 The output is designed for training language models to perform multi-step mathematical reasoning.
 
@@ -38,21 +38,34 @@ Generates problems and detailed steps for the following types:
 
 ## Usage
 
+
 ### Generating Samples
 
+To see one sample output from each generator type:
+
 ```bash
-python ultra_math_dataset.py
+python ultra_math_dataset.py --sample
 ```
+You can optionally specify a random seed using `-s` or `--seed`.
 
 ### Generating a Dataset
 
-To generate a full dataset file (e.g., 10,000 examples) in JSON Lines format:
+To generate a full dataset file in JSON Lines format:
 
-1.  Modify the `build_dataset()` function call within the `if __name__ == "__main__":` block in `ultra_math_dataset.py` (or call it from another script).
-2.  Example call: `build_dataset(n=10000, path='my_dataset.jsonl')`
-3.  Run the script: `python ultra_math_dataset.py` (if modified) or your custom script.
+```bash
+python ultra_math_dataset.py -n <number_of_examples> -o <output_file.jsonl>
+```
+
+Example: Generate 50,000 examples to `my_dataset.jsonl` with seed 123:
+```bash
+python ultra_math_dataset.py -n 50000 -o my_dataset.jsonl -s 123
+```
+
+Default values are 10,000 examples, `math_visible_dataset.jsonl` output file (created in the directory where you run the command), and seed 42 if arguments are omitted.
 
 ### Running Tests
+
+Unit tests are provided for each generator. To run all tests:
 
 ```bash
 python -m unittest discover tests

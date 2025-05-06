@@ -150,26 +150,55 @@ def build_dataset(n=10_000, path="math_visible_dataset_refactored.jsonl", seed=4
     if count < n:
         print(f"WARN: Target of {n} examples not reached ({count}/{n}). Consider increasing max_attempts or checking generator logic.")
 
-# ---------- Sample Generation ----------
+# ---------- Main Execution Block ----------
 if __name__ == "__main__":
-    print("Generating one sample from each generator type:")
-    print("-" * 50)
-    random.seed(42) # Use a fixed seed for reproducible samples
+    parser = argparse.ArgumentParser(description="Generate Ultra Math Dataset")
+    parser.add_argument(
+        "-n", "--num_examples",
+        type=int,
+        default=10000,
+        help="Number of examples to generate."
+    )
+    parser.add_argument(
+        "-o", "--output",
+        type=str,
+        default="math_visible_dataset.jsonl",
+        help="Output file path for the generated dataset."
+    )
+    parser.add_argument(
+        "-s", "--seed",
+        type=int,
+        default=42,
+        help="Random seed for reproducibility."
+    )
+    parser.add_argument(
+        "--sample",
+        action="store_true",
+        help="Generate one sample from each generator type instead of a full dataset."
+    )
 
-    for gen_instance in ALL_GENERATORS:
-        generator_name = gen_instance.__class__.__name__
-        # Handle generators that take arguments in __init__ (like DecimalAddSub, FractionOp)
-        if hasattr(gen_instance, 'op_symbol'):
-             generator_name += f" (op='{gen_instance.op_symbol}')"
+    args = parser.parse_args()
 
-        print(f"Generator: {generator_name}")
-        try:
-            example = gen_instance.generate()
-            print(json.dumps(example, indent=2, ensure_ascii=False))
-        except Exception as e:
-            print(f"  ERROR generating sample: {e}")
+    if args.sample:
+        print("Generating one sample from each generator type:")
         print("-" * 50)
+        random.seed(args.seed) # Use specified or default seed
 
-    print("Sample generation complete.")
-    print("\nTo generate a full dataset, call the build_dataset() function, e.g.:")
-    print("build_dataset(n=10000, path='my_dataset.jsonl')")
+        for gen_instance in ALL_GENERATORS:
+            generator_name = gen_instance.__class__.__name__
+            # Handle generators that take arguments in __init__
+            if hasattr(gen_instance, 'op_symbol'):
+                 generator_name += f" (op='{gen_instance.op_symbol}')"
+
+            print(f"Generator: {generator_name}")
+            try:
+                example = gen_instance.generate()
+                print(json.dumps(example, indent=2, ensure_ascii=False))
+            except Exception as e:
+                print(f"  ERROR generating sample: {e}")
+            print("-" * 50)
+        print("Sample generation complete.")
+    else:
+        print(f"Generating dataset with {args.num_examples} examples...")
+        build_dataset(n=args.num_examples, path=args.output, seed=args.seed)
+        print("Dataset generation finished.")
