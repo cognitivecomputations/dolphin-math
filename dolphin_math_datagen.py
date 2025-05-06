@@ -162,8 +162,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o", "--output",
         type=str,
-        default="math_visible_dataset.jsonl",
-        help="Output file path for the generated dataset."
+        default=None, # Default will be generated based on num_examples
+        help="Output file path for the generated dataset. Defaults to dolphin_math_<num_examples>.jsonl"
     )
     parser.add_argument(
         "-s", "--seed",
@@ -179,6 +179,10 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    # Determine the output filename if not provided
+    if args.output is None:
+        args.output = f"dolphin_math_{args.num_examples}.jsonl"
 
     # Check if any arguments were passed (other than the script name itself)
     # OR if the --sample flag was explicitly used.

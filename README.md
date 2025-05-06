@@ -56,12 +56,16 @@ To generate a full dataset file in JSON Lines format:
 python dolphin_math_datagen.py -n <number_of_examples> -o <output_file.jsonl>
 ```
 
-Example: Generate 50,000 examples to `my_dataset.jsonl` with seed 123:
+Example: Generate 50,000 examples with seed 123:
 ```bash
+# Specify output file explicitly:
 python dolphin_math_datagen.py -n 50000 -o my_dataset.jsonl -s 123
+
+# Use default output filename (dolphin_math_50000.jsonl):
+python dolphin_math_datagen.py -n 50000 -s 123
 ```
 
-Default values are 10,000 examples, `math_visible_dataset.jsonl` output file (created in the directory where you run the command), and seed 42 if arguments are omitted.
+Default values are 10,000 examples (outputting to `dolphin_math_10000.jsonl` by default if `-o` is omitted), and seed 42 if arguments are omitted.
 
 ### Running Tests
 
