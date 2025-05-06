@@ -152,7 +152,7 @@ def build_dataset(n=10_000, path="math_visible_dataset_refactored.jsonl", seed=4
 
 # ---------- Main Execution Block ----------
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generate Ultra Math Dataset")
+    parser = argparse.ArgumentParser(description="Generate Dolphin Math Dataset")
     parser.add_argument(
         "-n", "--num_examples",
         type=int,
@@ -171,18 +171,30 @@ if __name__ == "__main__":
         default=42,
         help="Random seed for reproducibility."
     )
+    # Removed --generate_dataset flag, sample is now default if no args given
     parser.add_argument(
         "--sample",
         action="store_true",
-        help="Generate one sample from each generator type instead of a full dataset."
+        help="Explicitly generate one sample from each generator type (this is also the default if no other args are given)."
     )
 
     args = parser.parse_args()
 
-    if args.sample:
-        print("Generating one sample from each generator type:")
+    # Check if any arguments were passed (other than the script name itself)
+    # OR if the --sample flag was explicitly used.
+    # If no args, default to sample. If args are present but not --sample, generate dataset.
+    if len(sys.argv) > 1 and not args.sample:
+        # Generate dataset if arguments like -n, -o, -s are provided
+        print(f"Generating dataset with n={args.num_examples}, output={args.output}, seed={args.seed}...")
+        build_dataset(n=args.num_examples, path=args.output, seed=args.seed)
+        print("Dataset generation finished.")
+    else:
+        # Default action (no args) or explicit --sample: print samples
+        action_reason = "Default Action" if len(sys.argv) == 1 else "--sample specified"
+        print(f"Generating one sample from each generator type ({action_reason}):")
+        print("(Use -n, -o, or -s arguments to generate the full dataset file)")
         print("-" * 50)
-        random.seed(args.seed) # Use specified or default seed
+        random.seed(args.seed) # Use specified or default seed for samples
 
         for gen_instance in ALL_GENERATORS:
             generator_name = gen_instance.__class__.__name__
@@ -198,7 +210,3 @@ if __name__ == "__main__":
                 print(f"  ERROR generating sample: {e}")
             print("-" * 50)
         print("Sample generation complete.")
-    else:
-        print(f"Generating dataset with {args.num_examples} examples...")
-        build_dataset(n=args.num_examples, path=args.output, seed=args.seed)
-        print("Dataset generation finished.")

@@ -1,0 +1,22 @@
+# Ignore generated dataset files
+*.jsonl
+
+# Python standard ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.installed.cfg
+*.egg
+dist/
+build/
+*.log
+.env
+.env.*
+*.sqlite3
+*.db

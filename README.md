@@ -1,4 +1,4 @@
-# Ultra Math Dataset Generator
+# Dolphin Math Data Generator
 
 ## Purpose
 
@@ -44,7 +44,7 @@ Generates problems and detailed steps for the following types:
 To see one sample output from each generator type:
 
 ```bash
-python ultra_math_dataset.py --sample
+python dolphin_math_datagen.py --sample
 ```
 You can optionally specify a random seed using `-s` or `--seed`.
 
@@ -53,12 +53,12 @@ You can optionally specify a random seed using `-s` or `--seed`.
 To generate a full dataset file in JSON Lines format:
 
 ```bash
-python ultra_math_dataset.py -n <number_of_examples> -o <output_file.jsonl>
+python dolphin_math_datagen.py -n <number_of_examples> -o <output_file.jsonl>
 ```
 
 Example: Generate 50,000 examples to `my_dataset.jsonl` with seed 123:
 ```bash
-python ultra_math_dataset.py -n 50000 -o my_dataset.jsonl -s 123
+python dolphin_math_datagen.py -n 50000 -o my_dataset.jsonl -s 123
 ```
 
 Default values are 10,000 examples, `math_visible_dataset.jsonl` output file (created in the directory where you run the command), and seed 42 if arguments are omitted.
